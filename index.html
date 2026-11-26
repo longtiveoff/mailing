@@ -2,63 +2,316 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
-  <title>Apply Mail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#09090b">
+  <title>Quick Apply — Aryanata Wijaya</title>
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --bg: #09090b;
+      --surface: #121215;
+      --surface-field: #18181c;
+      --surface-field-focus: #202026;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-placeholder: #52525b;
+      --yellow: #facc15;
+      --yellow-pressed: #eab308;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      min-height: 100vh;
+      padding: 0;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 18px 16px 20px;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 440px;
+      height: 100%;
       display: flex;
       flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    .brand-text span {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .time-pill {
+      background: var(--surface);
+      padding: 7px 13px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--yellow);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+    }
+
+    .card {
+      flex: 1;
+      min-height: 0;
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65);
+    }
+
+    .field-group {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-group.message-group {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .field-label {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+    }
+
+    .greeting-tag {
+      color: var(--yellow);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .text-input {
+      width: 100%;
+      background: var(--surface-field);
+      border-radius: 12px;
+      padding: 11px 14px;
+      outline: none;
+      color: var(--text-primary);
+      font-family: 'Poppins', sans-serif;
+      font-size: 13.5px;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .text-input::placeholder {
+      color: var(--text-placeholder);
+      font-weight: 400;
+    }
+
+    .text-input:focus {
+      background: var(--surface-field-focus);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .preview-box {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      background: var(--surface-field);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #e4e4e7;
+      white-space: pre-line;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .preview-box::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .preview-box::-webkit-scrollbar-thumb {
+      background: #2e2e36;
+      border-radius: 999px;
+    }
+
+    .highlight-greeting {
+      color: var(--yellow);
+      font-weight: 600;
+    }
+
+    .actions {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      display: flex;
       align-items: center;
       justify-content: center;
-      background: #0f172a;
-      color: #f8fafc;
-      font-family: system-ui, -apple-system, sans-serif;
-      text-align: center;
-      padding: 24px;
-    }
-    p {
-      color: #94a3b8;
-      margin-bottom: 20px;
-      font-size: 15px;
-    }
-    a.btn {
-      display: inline-block;
-      background: #2563eb;
-      color: #ffffff;
+      background-color: var(--yellow);
+      color: #09090b;
       text-decoration: none;
-      padding: 14px 28px;
-      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 20px;
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+      transition: transform 0.12s ease, background-color 0.12s ease;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+      background-color: var(--yellow-pressed);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--surface);
+      color: var(--yellow);
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
       font-weight: 600;
-      font-size: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      transition: transform 0.12s ease, background-color 0.12s ease;
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.98);
+      background-color: var(--surface-field);
     }
   </style>
 </head>
 <body>
-  <p id="statusText">Membuka Gmail...</p>
-  <a id="mailBtn" class="btn" href="#">Buka Gmail</a>
+  <main class="app-shell">
+    <header class="header">
+      <div class="brand-text">
+        <h1>Quick Apply</h1>
+        <span>Aryanata Wijaya</span>
+      </div>
+      <div class="time-pill" id="clockText">--:--</div>
+    </header>
+
+    <section class="card">
+      <div class="field-group">
+        <div class="field-label">
+          <span>To</span>
+        </div>
+        <input id="toInput" class="text-input" type="email" placeholder="hrd@perusahaan.com (opsional)" aria-label="Email Penerima">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">
+          <span>Subject</span>
+        </div>
+        <input id="subjectInput" class="text-input" type="text" value="Graphic Designer - Aryanata Wijaya" aria-label="Subjek Email">
+      </div>
+
+      <div class="field-group message-group">
+        <div class="field-label">
+          <span>Message</span>
+          <span id="greetingBadge" class="greeting-tag">Good Evening</span>
+        </div>
+        <div id="bodyPreview" class="preview-box"></div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <a id="mailBtn" class="btn-primary" href="#">Buka Gmail</a>
+      <button id="copyBtn" class="btn-secondary" type="button">Salin Teks Email</button>
+    </div>
+  </main>
 
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js");
     }
 
-    function buildMailto() {
-      const jam = new Date().getHours();
-      let greeting = "Good Evening";
+    const toInput = document.getElementById("toInput");
+    const subjectInput = document.getElementById("subjectInput");
+    const bodyPreview = document.getElementById("bodyPreview");
+    const greetingBadge = document.getElementById("greetingBadge");
+    const clockText = document.getElementById("clockText");
+    const mailBtn = document.getElementById("mailBtn");
+    const copyBtn = document.getElementById("copyBtn");
 
+    function getGreetingData() {
+      const now = new Date();
+      const jam = now.getHours();
+      const menit = String(now.getMinutes()).padStart(2, "0");
+      const jamStr = String(jam).padStart(2, "0");
+
+      let greeting = "Good Evening";
       if (jam >= 5 && jam < 12) {
         greeting = "Good Morning";
       } else if (jam >= 12 && jam < 18) {
         greeting = "Good Afternoon";
       }
 
-      const subject = "Graphic Designer - Aryanata Wijaya";
-      const body = `${greeting} HR team
+      return {
+        greeting,
+        timeFormatted: `${jamStr}:${menit}`
+      };
+    }
+
+    function getEmailBody(greeting) {
+      return `${greeting} HR team
 
 My name is Aryanata Wijaya, and I would like to apply that position at your company
 
@@ -75,28 +328,49 @@ Thank you
 https://arya.psce.pw/cvaryaen
 https://arya.psce.pw/portfolioarya
 https://linkedin.com/in/aryanatawijaya`;
-
-      const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      document.getElementById("mailBtn").href = url;
-      document.getElementById("statusText").textContent = `Sapaan aktif: ${greeting} HR team`;
-      return url;
     }
 
-    let lastOpened = 0;
-    function launchMail() {
-      const now = Date.now();
-      if (now - lastOpened < 3000) return;
-      lastOpened = now;
-      window.location.href = buildMailto();
+    function syncUI() {
+      const { greeting, timeFormatted } = getGreetingData();
+      const to = toInput.value.trim().replace(/\s+/g, "");
+      const subject = subjectInput.value.trim() || "Graphic Designer - Aryanata Wijaya";
+      const rawBody = getEmailBody(greeting);
+
+      clockText.textContent = timeFormatted;
+      greetingBadge.textContent = greeting;
+
+      const highlightedBody = rawBody.replace(
+        `${greeting} HR team`,
+        `<span class="highlight-greeting">${greeting} HR team</span>`
+      );
+      bodyPreview.innerHTML = highlightedBody;
+
+      mailBtn.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(rawBody)}`;
     }
 
-    launchMail();
-
+    toInput.addEventListener("input", syncUI);
+    subjectInput.addEventListener("input", syncUI);
     document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") {
-        launchMail();
+      if (document.visibilityState === "visible") syncUI();
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const { greeting } = getGreetingData();
+      const fullText = getEmailBody(greeting);
+      try {
+        await navigator.clipboard.writeText(fullText);
+        copyBtn.textContent = "Teks Tersalin";
+
+        setTimeout(() => {
+          copyBtn.textContent = "Salin Teks Email";
+        }, 2000);
+      } catch (err) {
+        copyBtn.textContent = "Gagal Menyalin";
       }
     });
+
+    syncUI();
+    setInterval(syncUI, 10000);
   </script>
 </body>
 </html>
