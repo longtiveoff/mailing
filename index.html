@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apply Email - Aryanata</title>
+  <meta name="theme-color" content="#0f172a">
+  <title>Apply Mail</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.jpg">
   <style>
     body {
       margin: 0;
@@ -36,21 +39,26 @@
   </style>
 </head>
 <body>
-  <p id="statusText">Menyiapkan draf email...</p>
+  <p id="statusText">Membuka Gmail...</p>
   <a id="mailBtn" class="btn" href="#">Buka Gmail</a>
 
   <script>
-    const jam = new Date().getHours();
-    let greeting = "Good Evening";
-
-    if (jam >= 5 && jam < 12) {
-      greeting = "Good Morning";
-    } else if (jam >= 12 && jam < 18) {
-      greeting = "Good Afternoon";
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js");
     }
 
-    const subject = "Graphic Designer - Aryanata Wijaya";
-    const body = `${greeting} HR team
+    function buildMailto() {
+      const jam = new Date().getHours();
+      let greeting = "Good Evening";
+
+      if (jam >= 5 && jam < 12) {
+        greeting = "Good Morning";
+      } else if (jam >= 12 && jam < 18) {
+        greeting = "Good Afternoon";
+      }
+
+      const subject = "Graphic Designer - Aryanata Wijaya";
+      const body = `${greeting} HR team
 
 My name is Aryanata Wijaya, and I would like to apply that position at your company
 
@@ -68,14 +76,27 @@ https://arya.psce.pw/cvaryaen
 https://arya.psce.pw/portfolioarya
 https://linkedin.com/in/aryanatawijaya`;
 
-    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    const btn = document.getElementById("mailBtn");
-    btn.href = mailtoUrl;
-    document.getElementById("statusText").textContent = `Sapaan aktif: ${greeting} HR team`;
+      const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      document.getElementById("mailBtn").href = url;
+      document.getElementById("statusText").textContent = `Sapaan aktif: ${greeting} HR team`;
+      return url;
+    }
 
-    setTimeout(() => {
-      btn.click();
-    }, 400);
+    let lastOpened = 0;
+    function launchMail() {
+      const now = Date.now();
+      if (now - lastOpened < 3000) return;
+      lastOpened = now;
+      window.location.href = buildMailto();
+    }
+
+    launchMail();
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        launchMail();
+      }
+    });
   </script>
 </body>
 </html>
