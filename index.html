@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Draft Email Lamaran</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply Email - Aryanata</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+      text-align: center;
+      padding: 24px;
+    }
+    p {
+      color: #94a3b8;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    a.btn {
+      display: inline-block;
+      background: #2563eb;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
+  <p id="statusText">Menyiapkan draf email...</p>
+  <a id="mailBtn" class="btn" href="#">Buka Gmail</a>
+
   <script>
     const jam = new Date().getHours();
     let greeting = "Good Evening";
@@ -34,7 +68,14 @@ https://arya.psce.pw/cvaryaen
 https://arya.psce.pw/portfolioarya
 https://linkedin.com/in/aryanatawijaya`;
 
-    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const btn = document.getElementById("mailBtn");
+    btn.href = mailtoUrl;
+    document.getElementById("statusText").textContent = `Sapaan aktif: ${greeting} HR team`;
+
+    setTimeout(() => {
+      btn.click();
+    }, 400);
   </script>
 </body>
 </html>
